@@ -31,9 +31,25 @@ class App extends Component {
     })
   }
 
-  handleSubmit = character => {
-    this.setState({ characters: [...this.state.characters, character] })
-  }
+handleSubmit = character => {
+   this.makePostCall(character).then( callResult => {
+      if (callResult === true) {
+         this.setState({ characters: [...this.state.characters, character] });
+      }
+   });
+ }
+
+  makePostCall(character){
+     return axios.post('http://localhost:5000/users', character)
+      .then(function (response) {
+        console.log(response);
+        return (response.status === 200);
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+   }
 
   render() {
     const { characters } = this.state
