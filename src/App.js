@@ -1,8 +1,22 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import Table from './Table'
 import Form from './Form';
 
 class App extends Component {
+
+  componentDidMount() {
+     axios.get('http://localhost:5000/users')
+      .then(res => {
+        const characters = res.data.users_list;
+        this.setState({ characters });
+      })
+      .catch(function (error) {
+        //Not handling the error. Just logging into the console.
+        console.log(error);
+      });
+  }
+
   state = {
     characters: []
   }
